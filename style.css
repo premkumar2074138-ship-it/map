@@ -1,0 +1,136 @@
+:root{
+  --sea-1:#063f5a;
+  --sea-2:#0c9cae;
+  --sand:#fff2d2;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+}
+
+body{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,.22), transparent 24%),
+    radial-gradient(circle at 82% 76%, rgba(124,241,237,.20), transparent 26%),
+    linear-gradient(135deg, var(--sea-1), var(--sea-2) 54%, #075875);
+  font-family:Georgia, "Times New Roman", serif;
+}
+
+.scene{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  perspective:1600px;
+}
+
+.map-card{
+  position:relative;
+  width:min(1536px, 100%);
+  aspect-ratio:16/9;
+  max-height:calc(100vh - 36px);
+  overflow:hidden;
+  border-radius:28px;
+  transform-style:preserve-3d;
+  box-shadow:
+    0 42px 100px rgba(1,22,36,.38),
+    0 10px 30px rgba(1,22,36,.20);
+  background:#0a829b;
+}
+
+.map-layer{
+  position:absolute;
+  inset:-1.4%;
+  transform:
+    translate3d(var(--move-x, 0px), var(--move-y, 0px), 0)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    scale(1.02);
+  transform-style:preserve-3d;
+  transition:transform 140ms ease-out;
+  will-change:transform;
+}
+
+.map-layer img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  user-select:none;
+  pointer-events:none;
+  -webkit-user-drag:none;
+  filter:saturate(1.05) contrast(1.03);
+}
+
+.shine{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.20) 0%,
+      rgba(255,255,255,.05) 22%,
+      transparent 43%,
+      transparent 69%,
+      rgba(255,248,222,.09) 100%
+    );
+  mix-blend-mode:screen;
+  opacity:.7;
+}
+
+.depth-shadow{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:28px;
+  box-shadow:
+    inset 0 0 80px rgba(0,28,44,.24),
+    inset 0 -70px 100px rgba(0,28,44,.12);
+  border:1px solid rgba(255,255,255,.28);
+}
+
+.map-card::before{
+  content:"";
+  position:absolute;
+  left:6%;
+  right:6%;
+  bottom:-12px;
+  height:28px;
+  border-radius:50%;
+  background:rgba(2,29,43,.28);
+  filter:blur(18px);
+  transform:translateZ(-70px);
+  pointer-events:none;
+}
+
+@media(max-width:900px){
+  .scene{
+    padding:0;
+  }
+
+  .map-card{
+    width:100vw;
+    height:100vh;
+    max-height:none;
+    aspect-ratio:auto;
+    border-radius:0;
+  }
+
+  .map-layer{
+    inset:-7%;
+  }
+
+  .depth-shadow{
+    border-radius:0;
+  }
+}
